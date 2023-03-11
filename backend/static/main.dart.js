@@ -21284,12 +21284,12 @@ if(s===r)return!0
 return B.b.af(a,r)===47},
 afN(){var s=0,r=A.a4(t.z),q,p,o,n
 var $async$afN=A.a5(function(a,b){if(a===1)return A.a1(b,r)
-while(true)switch(s){case 0:A.kM("http://127.0.0.1:8000/api/shuttle/list")
+while(true)switch(s){case 0:A.kM("http://shuttlebot.kro.kr/api/shuttle/list")
 p=t.N
 o=B.aC
 n=B.D
 s=3
-return A.a0(A.aoO(A.md("http://127.0.0.1:8000/api/shuttle/list"),A.aq(["Accept","application/json"],p,p)),$async$afN)
+return A.a0(A.aoO(A.md("http://shuttlebot.kro.kr/api/shuttle/list"),A.aq(["Accept","application/json"],p,p)),$async$afN)
 case 3:q=o.pm(0,n.dq(0,b.w),null)
 s=1
 break
@@ -21301,7 +21301,7 @@ while(true)switch(s){case 0:p=t.N
 o=B.aC
 n=B.D
 s=3
-return A.a0(A.aoO(A.md("http://127.0.0.1:8000/api/reservation/list"),A.aq(["Accept","application/json"],p,p)),$async$afM)
+return A.a0(A.aoO(A.md("http://shuttlebot.kro.kr/api/reservation/list"),A.aq(["Accept","application/json"],p,p)),$async$afM)
 case 3:q=o.pm(0,n.dq(0,b.w),null)
 s=1
 break
@@ -21314,7 +21314,7 @@ p=t.N
 o=B.aC
 n=B.D
 s=3
-return A.a0(A.aAT(A.md("http://127.0.0.1:8000/api/reservation"),B.aC.AP(a,null),A.aq(["Accept","application/json"],p,p)),$async$ag7)
+return A.a0(A.aAT(A.md("http://shuttlebot.kro.kr/api/reservation"),B.aC.AP(a,null),A.aq(["Accept","application/json"],p,p)),$async$ag7)
 case 3:q=o.pm(0,n.dq(0,c.w),null)
 s=1
 break
@@ -21327,7 +21327,7 @@ p=t.N
 o=B.aC
 n=B.D
 s=3
-return A.a0(A.apu(A.md("http://127.0.0.1:8000/api"+("/reservation?seq="+A.h(a))),B.aC.AP(a,null),A.aq(["Accept","application/json"],p,p)),$async$afw)
+return A.a0(A.apu(A.md("http://shuttlebot.kro.kr/api"+("/reservation?seq="+A.h(a))),B.aC.AP(a,null),A.aq(["Accept","application/json"],p,p)),$async$afw)
 case 3:q=o.pm(0,n.dq(0,c.w),null)
 s=1
 break
