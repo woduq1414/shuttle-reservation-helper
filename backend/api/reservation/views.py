@@ -16,7 +16,7 @@ router = APIRouter(
 async def get_reservation_list(db: Session = Depends(get_db)):
     now = datetime.now()
     target_date = now + timedelta(days=2)
-    target_date = datetime(target_date.year, target_date.month, target_date.day, 14, 0, 0)
+    target_date = datetime(target_date.year, target_date.month, target_date.day, 0, 0, 0)
 
     return [{"seq": x.seq, "departure": x.departure, "departure_time": x.departure_time, "arrival_time": x.arrival_time,
              "shuttle_date": x.shuttle_date.strftime("%Y%m%d")} for x in
