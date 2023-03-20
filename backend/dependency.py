@@ -167,11 +167,12 @@ def do_reservation(cookies, departure, date, departure_time, arrival_time=None):
         s.cookies = requests.utils.cookiejar_from_dict(cookies)
         url = "https://underwood1.yonsei.ac.kr/sch/shtl/ShtlrmCtr/findShtlbusResveList.do"
 
-        payload = f"_menuId=MTA3NDkwNzI0MDIyNjk1MTQwMDA%3D&_menuNm=&_pgmId=MzI5MzAyNzI4NzE%3D&%40d1%23areaDivCd={departure}&%40d1%23stdrDt={date}&%40d1%23resvePosblDt=1&%40d1%23seatDivCd=1&%40d1%23areaDivCd2=&%40d1%23stdrDt2={date}&%40d1%23userDivCd=12&%40d%23=%40d1%23&%40d1%23=dmCond&%40d1%23tp=dm&"
-
+        payload = f"_menuId=MTA3NDkwNzI0MDIyNjk1MTQwMDA%3D&_menuNm=&_pgmId=MzI5MzAyNzI4NzE%3D&%40d1%23areaDivCd={departure}&%40d1%23stdrDt={date}&%40d1%23resvePosblDt=2&%40d1%23seatDivCd=1&%40d1%23areaDivCd2=&%40d1%23stdrDt2={datetime.now().strftime('%Y%m%d')}&%40d1%23userDivCd=12&%40d%23=%40d1%23&%40d1%23=dmCond&%40d1%23tp=dm&"
+        print(payload)
         response = s.post(url, data=payload, headers=default_headers)
 
         shuttle_data = json.loads(response.text)["dsShtl110"]
+        print(response.text)
         print(shuttle_data)
         target_shuttle = [x for x in shuttle_data if x["beginTm"] == departure_time][0]
         print(target_shuttle)
@@ -224,23 +225,32 @@ def do_reservation(cookies, departure, date, departure_time, arrival_time=None):
 
 def login_and_reservation(departure, date, departure_time):
     print(departure, date, departure_time)
-
     if departure == "신촌":
         departure = "S"
     elif departure == "국제":
         departure = "I"
 
-    cookies = get_portal_login_cookie()
+    retry = 0
+    try:
 
-    do_reservation(cookies,departure, date, departure_time)
+        if retry >= 3:
+            return
+        retry += 1
+
+        cookies = get_portal_login_cookie()
+
+        do_reservation(cookies, departure, date, departure_time)
+
+    except:
+        pass
 
 
 def init_schedule():
     db = next(get_db())
 
     now = datetime.now()
-    target_date = now - timedelta(days=2)
-    # target_date = now + timedelta(days=2)
+    # target_date = now - timedelta(days=2)
+    target_date = now + timedelta(days=2)
     target_date = datetime(target_date.year, target_date.month, target_date.day, 14, 1, 0)
 
     reservation_list = db.query(Reservation).order_by(
@@ -250,7 +260,7 @@ def init_schedule():
 
         if reservation_row.shuttle_date < target_date:
             try:
-                scheduler.remove_job(reservation_row)
+                scheduler.remove_job(get_schedule_id(reservation_row))
             except:
                 pass
             db.delete(reservation_row)
@@ -274,6 +284,6 @@ def get_schedule_id(res_row):
 
 if __name__ == "__main__":
     print(init_schedule())
-    # cookies = get_portal_login_cookie()
+    cookies = get_portal_login_cookie()
 
-    # do_reservation(cookies, "I", "20230307", "1230", "0820")
+    do_reservation(cookies, "S", "20230321", "1230", "0820")
